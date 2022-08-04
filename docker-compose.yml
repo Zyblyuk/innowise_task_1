@@ -20,6 +20,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - 5050:5050
+    command: sh -c "python3 main.py -format xml"
     depends_on:
     - database
 
