@@ -30,7 +30,7 @@ def db_connect() -> psycopg2.extensions.connection:
         return conn
 
 
-def execute_sql_scripts(query_sql) -> list:
+def execute_sql_scripts(query_sql: str) -> list:
     """Execute sql scripts"""
 
     conn = db_connect()
@@ -39,7 +39,7 @@ def execute_sql_scripts(query_sql) -> list:
         return cur.fetchall()
 
 
-def upload_json(json_file, table_name) -> bool:
+def upload_json(json_file: str, table_name: str) -> bool:
     """Add data to database from json file"""
 
     query_sql = f"""insert into {table_name} 
@@ -55,7 +55,7 @@ def upload_json(json_file, table_name) -> bool:
     return True
 
 
-def clear_table(table_name) -> bool:
+def clear_table(table_name: str) -> bool:
     """Clear table"""
 
     query_sql = f""" DELETE FROM {table_name}"""
@@ -65,15 +65,15 @@ def clear_table(table_name) -> bool:
     return True
 
 
-def write_to_file(file_name, data) -> bool:
+def write_to_file(file_name: str, data: list) -> bool:
     """Writing data to a file"""
 
     if args['format'] == "json":
-        with open(config('FILE_DIR') + file_name + ".json", 'w') as f:
+        with open(f"{config('FILE_DIR')}{file_name}.json", 'w') as f:
             json.dump(data, f)
     if args['format'] == "xml":
         xml = dicttoxml.dicttoxml(data)
-        with open(config('FILE_DIR') + file_name + ".xml", "wb") as f:
+        with open(f"{config('FILE_DIR')}{file_name}.xml", "wb") as f:
             f.write(xml)
     return True
 
